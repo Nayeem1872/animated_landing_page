@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Navbar,
   NavBody,
@@ -11,37 +12,26 @@ import {
   NavbarButton,
 } from "@/components/navbar/resizable-navbar";
 import { useState } from "react";
-import Hero1 from "./Hero";
-import Hero2 from "./Hero2";
-import Hero3 from "./Hero3";
-import Testimonial from "./Testimonial";
-import Footer from "@/components/Footer";
 
-export default function Home() {
+export default function NavbarDemo() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [visible, setVisible] = useState(false);
 
   const navItems = [
     { name: "Home", link: "/" },
-    { name: "Docs", link: "https://nextjs.org/docs" },
-    { name: "Learn", link: "https://nextjs.org/learn" },
-    {
-      name: "Examples",
-      link: "https://vercel.com/templates?framework=next.js",
-    },
+    { name: "About", link: "/about" },
+    { name: "Services", link: "/services" },
+    { name: "Contact", link: "/contact" },
   ];
 
   return (
-    <div className="font-sans min-h-screen ">
+    <div className="min-h-screen bg-white dark:bg-black">
       <Navbar>
         <NavBody visible={visible}>
           <NavbarLogo />
           <NavItems items={navItems} onItemClick={() => setVisible(false)} />
-          <NavbarButton
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            variant="primary"
-          >
-            Deploy
+          <NavbarButton href="#" variant="primary">
+            Get Started
           </NavbarButton>
         </NavBody>
 
@@ -62,29 +52,42 @@ export default function Home() {
               <a
                 key={index}
                 href={item.link}
-                className="w-full px-4 py-2 text-left text-white/80 hover:text-white"
+                className="w-full px-4 py-2 text-left text-neutral-600 dark:text-neutral-300"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {item.name}
               </a>
             ))}
             <NavbarButton
-              href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
+              href="#"
               variant="primary"
               className="w-full"
               onClick={() => setMobileMenuOpen(false)}
             >
-              Deploy
+              Get Started
             </NavbarButton>
           </MobileNavMenu>
         </MobileNav>
       </Navbar>
 
-      <Hero1 />
-      <Hero2 />
-      <Hero3 />
-      <Testimonial />
-      <Footer />
+      <div className="pt-32 p-8">
+        <h1 className="text-4xl font-bold mb-4">Navbar Demo</h1>
+        <p className="text-lg">
+          This page demonstrates the Resizable Navbar from Aceternity UI.
+        </p>
+        <p className="mt-4">Scroll down to see the navbar behavior change.</p>
+
+        <div className="mt-8 space-y-4">
+          {[...Array(20)].map((_, i) => (
+            <div
+              key={i}
+              className="p-4 bg-gray-100 dark:bg-gray-900 rounded-lg"
+            >
+              <p>Content section {i + 1}</p>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
