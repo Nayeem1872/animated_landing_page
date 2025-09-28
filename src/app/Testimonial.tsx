@@ -52,8 +52,8 @@ const Testimonial = () => {
             What Our Clients Say
           </h2>
           <p className="text-gray-300 text-lg max-w-2xl mx-auto">
-            Don't just take our word for it. Here&apos;s what industry leaders
-            and successful businesses say about working with us.
+            Don&apos;t just take our word for it. Here&apos;s what industry
+            leaders and successful businesses say about working with us.
           </p>
         </div>
 

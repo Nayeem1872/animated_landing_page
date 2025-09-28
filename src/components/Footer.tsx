@@ -84,10 +84,12 @@ const Footer = () => {
           {/* Company Info */}
           <motion.div variants={itemVariants} className="lg:col-span-1">
             <div className="flex items-center space-x-2 mb-6">
-              <div className="w-8 h-8 bg-gradient-to-r from-cyan-400 to-blue-400 rounded-lg flex items-center justify-center">
+              <div className="w-8 h-8 bg-gradient-to-r from-cyan-400 to-cyan-500 rounded-lg flex items-center justify-center">
                 <Code className="w-5 h-5 text-black" />
               </div>
-              <span className="text-2xl font-bold text-white">DevStudio</span>
+              <span className="text-2xl font-bold text-white">
+                Nayeem demo landing
+              </span>
             </div>
             <p className="text-gray-300 mb-6 leading-relaxed">
               Creating digital experiences that inspire and engage. We transform
@@ -96,15 +98,15 @@ const Footer = () => {
             <div className="space-y-3">
               <div className="flex items-center space-x-3 text-gray-300 hover:text-cyan-400 transition-colors">
                 <Mail className="w-4 h-4" />
-                <span className="text-sm">hello@devstudio.com</span>
+                <span className="text-sm">hello@demo.com</span>
               </div>
               <div className="flex items-center space-x-3 text-gray-300 hover:text-cyan-400 transition-colors">
                 <Phone className="w-4 h-4" />
-                <span className="text-sm">+1 (555) 123-4567</span>
+                <span className="text-sm">+12345678</span>
               </div>
               <div className="flex items-center space-x-3 text-gray-300 hover:text-cyan-400 transition-colors">
                 <MapPin className="w-4 h-4" />
-                <span className="text-sm">San Francisco, CA</span>
+                <span className="text-sm">Dhaka, Bangladesh</span>
               </div>
             </div>
           </motion.div>

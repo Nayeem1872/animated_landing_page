@@ -16,10 +16,12 @@ import Hero2 from "./Hero2";
 import Hero3 from "./Hero3";
 import Testimonial from "./Testimonial";
 import Footer from "@/components/Footer";
+import DevStudioLanding from "./IntroPage";
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [showIntro, setShowIntro] = useState(true);
 
   const navItems = [
     { name: "Home", link: "/" },
@@ -31,6 +33,14 @@ export default function Home() {
     },
   ];
 
+  const handleIntroComplete = () => {
+    setShowIntro(false);
+  };
+
+  if (showIntro) {
+    return <DevStudioLanding onComplete={handleIntroComplete} />;
+  }
+
   return (
     <div className="font-sans min-h-screen ">
       <Navbar>
@@ -41,7 +51,7 @@ export default function Home() {
             href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
             variant="primary"
           >
-            Deploy
+            Get Started
           </NavbarButton>
         </NavBody>
 
@@ -54,10 +64,7 @@ export default function Home() {
             />
           </MobileNavHeader>
 
-          <MobileNavMenu
-            isOpen={mobileMenuOpen}
-            onClose={() => setMobileMenuOpen(false)}
-          >
+          <MobileNavMenu isOpen={mobileMenuOpen}>
             {navItems.map((item, index) => (
               <a
                 key={index}
@@ -74,7 +81,7 @@ export default function Home() {
               className="w-full"
               onClick={() => setMobileMenuOpen(false)}
             >
-              Deploy
+              Get Started
             </NavbarButton>
           </MobileNavMenu>
         </MobileNav>

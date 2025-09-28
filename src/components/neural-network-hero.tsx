@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useMemo } from "react";
-import { Canvas, useFrame, extend } from "@react-three/fiber";
+import { Canvas, useFrame, extend, ReactThreeFiber } from "@react-three/fiber";
 import { shaderMaterial } from "@react-three/drei";
 import * as THREE from "three";
 
@@ -145,7 +145,25 @@ const fragmentShader = `
     + vec4(-1.5468478, -3.6171484, 0.24762098, 0.0);
 
     buf[0] = sigmoid(buf[0]);
-    return vec4(buf[0].x , buf[0].y , buf[0].z, 1.0);
+    
+    // Convert to cyan-400 color scheme
+    vec3 color = vec3(buf[0].x, buf[0].y, buf[0].z);
+    
+    // Remap colors to cyan-400 (#22d3ee) palette
+    float intensity = (color.r + color.g + color.b) / 3.0;
+    vec3 cyan400 = vec3(0.133, 0.827, 0.933); // #22d3ee
+    vec3 darkCyan = vec3(0.067, 0.4, 0.5); // darker cyan
+    vec3 black = vec3(0.0, 0.0, 0.0);
+    
+    // Create gradient from black to dark cyan to cyan-400
+    vec3 finalColor;
+    if (intensity < 0.3) {
+        finalColor = mix(black, darkCyan, intensity / 0.3);
+    } else {
+        finalColor = mix(darkCyan, cyan400, (intensity - 0.3) / 0.7);
+    }
+    
+    return vec4(finalColor, 1.0);
   }
   
   void main() {
@@ -162,9 +180,15 @@ const CPPNShaderMaterial = shaderMaterial(
 
 extend({ CPPNShaderMaterial });
 
+// Define the type for our shader material
+type CPPNShaderMaterialType = {
+  iTime: number;
+  iResolution: THREE.Vector2;
+} & THREE.ShaderMaterial;
+
 function ShaderPlane() {
   const meshRef = useRef<THREE.Mesh>(null!);
-  const materialRef = useRef<unknown>(null!);
+  const materialRef = useRef<CPPNShaderMaterialType>(null!);
 
   useFrame((state) => {
     if (!materialRef.current) return;

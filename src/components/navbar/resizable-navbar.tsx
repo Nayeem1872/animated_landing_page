@@ -45,7 +45,6 @@ interface MobileNavMenuProps {
   children: React.ReactNode;
   className?: string;
   isOpen: boolean;
-  onClose: () => void;
 }
 
 export const Navbar = ({ children, className }: NavbarProps) => {
@@ -149,15 +148,8 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
   return (
     <motion.div
       animate={{
-        backdropFilter: visible ? "blur(10px)" : "none",
-        boxShadow: visible
-          ? "0 0 24px rgba(34, 42, 53, 0.06), 0 1px 1px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(34, 42, 53, 0.04), 0 0 4px rgba(34, 42, 53, 0.08), 0 16px 68px rgba(47, 48, 55, 0.05), 0 1px 0 rgba(255, 255, 255, 0.1) inset"
-          : "none",
-        width: visible ? "90%" : "100%",
-        paddingRight: visible ? "12px" : "0px",
-        paddingLeft: visible ? "12px" : "0px",
-        borderRadius: visible ? "4px" : "2rem",
-        y: visible ? 20 : 0,
+        backgroundColor: visible ? "rgba(0, 0, 0, 0.9)" : "transparent",
+        y: visible ? 10 : 0,
       }}
       transition={{
         type: "spring",
@@ -165,9 +157,8 @@ export const MobileNav = ({ children, className, visible }: MobileNavProps) => {
         damping: 50,
       }}
       className={cn(
-        "relative z-50 mx-auto flex w-full max-w-[calc(100vw-2rem)] flex-col items-center justify-between bg-transparent px-0 py-2 lg:hidden",
-        visible &&
-          "bg-white/10 backdrop-blur-xl border border-white/20 shadow-lg shadow-black/10",
+        "relative z-50 mx-auto flex w-full max-w-[calc(100vw-1rem)] flex-col items-center justify-between px-4 py-3 lg:hidden rounded-lg",
+        visible && "border border-white/20 shadow-lg",
         className
       )}
     >
@@ -196,17 +187,17 @@ export const MobileNavMenu = ({
   children,
   className,
   isOpen,
-  onClose,
 }: MobileNavMenuProps) => {
   return (
     <AnimatePresence>
       {isOpen && (
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: "auto" }}
+          exit={{ opacity: 0, height: 0 }}
+          transition={{ duration: 0.2 }}
           className={cn(
-            "absolute inset-x-0 top-16 z-50 flex w-full flex-col items-start justify-start gap-4 rounded-lg bg-white/10 backdrop-blur-xl border border-white/20 shadow-lg shadow-black/20 px-4 py-8",
+            "w-full flex flex-col items-start justify-start gap-3 bg-black/95 border border-white/20 rounded-lg px-4 py-6 mt-4",
             className
           )}
         >
@@ -224,10 +215,17 @@ export const MobileNavToggle = ({
   isOpen: boolean;
   onClick: () => void;
 }) => {
-  return isOpen ? (
-    <IconX className="text-black dark:text-white" onClick={onClick} />
-  ) : (
-    <IconMenu2 className="text-black dark:text-white" onClick={onClick} />
+  return (
+    <button
+      onClick={onClick}
+      className="p-2 rounded-md hover:bg-white/10 transition-colors"
+    >
+      {isOpen ? (
+        <IconX className="text-white w-6 h-6" />
+      ) : (
+        <IconMenu2 className="text-white w-6 h-6" />
+      )}
+    </button>
   );
 };
 
@@ -243,7 +241,7 @@ export const NavbarLogo = () => {
         width={30}
         height={30}
       />
-      <span className="font-medium text-white">Startup</span>
+      <span className="font-medium text-white">Demo</span>
     </a>
   );
 };
@@ -261,7 +259,7 @@ export const NavbarButton = ({
   children: React.ReactNode;
   className?: string;
   variant?: "primary" | "secondary" | "dark" | "gradient";
-} & React.HTMLAttributes<HTMLElement>) => {
+} & Record<string, unknown>) => {
   const baseStyles =
     "px-4 py-2 rounded-md text-sm font-bold relative cursor-pointer hover:-translate-y-0.5 transition duration-200 inline-block text-center";
 
@@ -279,13 +277,13 @@ export const NavbarButton = ({
 
   const componentProps = href ? { href } : {};
 
-  return (
-    <Tag
-      {...componentProps}
-      className={cn(baseStyles, variantStyles[variant], className)}
-      {...props}
-    >
-      {children}
-    </Tag>
+  return React.createElement(
+    Tag,
+    {
+      ...componentProps,
+      className: cn(baseStyles, variantStyles[variant], className),
+      ...props,
+    },
+    children
   );
 };
